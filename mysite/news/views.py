@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .utils import MyMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 
 from .models import *
 from .forms import *
@@ -10,12 +11,22 @@ from .forms import *
 
 # Create your views here.
 
+def test(request):
+    objects = ['john1', 'liza2', 'paul3', 'chris4', 'monika5', 'fillip6','john7']
+    paginator = Paginator(objects,2)
+    page_num = request.GET.get('page', 1)
+    page_objects = paginator.get_page(page_num)
+    return render(request, 'news/test.html', context={'page_obj':page_objects})
+
+
 class HomeNews(MyMixin, ListView):
     model = News
 
     template_name = 'news/home_news_list.html'
     context_object_name = 'news'
     mixin_prop = 'hello world'
+    paginate_by = 2
+
 
     # extra_context = {'title': 'Главная'}
 
