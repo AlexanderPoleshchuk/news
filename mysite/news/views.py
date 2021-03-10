@@ -12,7 +12,7 @@ from django.contrib import messages
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Вы успешно зарегистрировались')
@@ -20,7 +20,7 @@ def register(request):
         else:
             messages.error(request, 'Ошибка регистрации')
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
     return render(request, 'news/register.html', {'form':form})
 
 
