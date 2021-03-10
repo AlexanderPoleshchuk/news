@@ -7,7 +7,25 @@ from django.core.paginator import Paginator
 
 from .models import *
 from .forms import *
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Вы успешно зарегистрировались')
+            return redirect('login')
+        else:
+            messages.error(request, 'Ошибка регистрации')
+    else:
+        form = UserCreationForm()
+    return render(request, 'news/register.html', {'form':form})
+
+
+def login(request):
+    return render(request, 'news/login.html')
 
 # Create your views here.
 
